@@ -1,0 +1,162 @@
+import static java.lang.System.getenv
+
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    dependencies {
+        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.5.3"
+    }
+}
+
+plugins {
+    id "java"
+    id "idea"
+    id "maven-publish"
+    id "groovy"
+    id "java-library"
+}
+
+group "be.looorent"
+version "1.0"
+description "Create API middleware to check Authorization headers against Keycloak"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+def keycloakVersion = "4.1.0.Final"
+def rxJavaVersion = "2.1.16"
+def micronautVersion = "1.0.0.M2"
+
+dependencies {
+    annotationProcessor "io.micronaut:inject-java:$micronautVersion"
+
+    api "io.jsonwebtoken:jjwt:0.9.1"
+
+    implementation "io.micronaut:core:$micronautVersion"
+    implementation "io.micronaut:http:$micronautVersion"
+    implementation "io.micronaut:inject:$micronautVersion"
+    implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
+
+    testImplementation "io.micronaut:http:$micronautVersion"
+    testImplementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
+    testImplementation "org.keycloak:keycloak-common:$keycloakVersion"
+    testImplementation "org.keycloak:keycloak-core:$keycloakVersion"
+
+    testImplementation(
+            "junit:junit:4.12",
+            "org.codehaus.groovy:groovy-all:2.4.15",
+            "org.spockframework:spock-core:1.1-groovy-2.4"
+    )
+}
+
+jar {
+    manifest {
+        attributes('Implementation-Title': project.name,
+                   'Implementation-Version': project.version)
+    }
+}
+
+def repoUser = hasProperty("ossrhUser") ? ossrhUser : getenv("ossrhUser")
+def repoPassword = hasProperty("ossrhPassword") ? ossrhPassword : getenv("ossrhUser")
+
+apply plugin: "io.codearte.nexus-staging"
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId "be.looorent"
+            artifactId "keycloak-micronaut-adapter"
+            version "0.1"
+            from components.java
+        }
+    }
+}
+
+if (project.hasProperty("release")) {
+    allprojects {
+
+        apply plugin: 'signing'
+        apply plugin: 'maven'
+
+        task sourcesJar(type: Jar, dependsOn: classes) {
+            classifier = "sources"
+            from sourceSets.main.allSource
+        }
+
+        task javadocJar(type: Jar, dependsOn: javadoc) {
+            classifier = "javadoc"
+            from javadoc.destinationDir
+        }
+
+        artifacts {
+            archives sourcesJar
+            archives javadocJar
+        }
+
+        jar {
+            manifest {
+                attributes "Implementation-Title": "Keycloak - Micronaut Adapter",
+                        "Implementation-Version": version,
+                        "provider": gradle
+            }
+        }
+
+        signing {
+            sign configurations.archives
+        }
+
+        uploadArchives {
+            repositories {
+                mavenDeployer {
+                    beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+                    repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                        authentication(userName: repoUser, password: repoPassword)
+                    }
+
+                    pom.project {
+                        name project.name
+                        description project.description
+                        packaging "jar"
+                        url "https://github.com/looorent/keycloak-micronaut-adapter"
+
+                        scm {
+                            connection "scm:git:https://github.com/looorent/keycloak-micronaut-adapter"
+                            developerConnection "scm:git:git@github.com:looorent/keycloak-micronaut-adapter.git"
+                            url "https://github.com/looorent/keycloak-micronaut-adapter"
+                        }
+
+                        licenses {
+                            license {
+                                name "The MIT License (MIT)"
+                                url "http://opensource.org/licenses/MIT"
+                                distribution "repo"
+                            }
+                        }
+
+                        developers {
+                            developer {
+                                id = "looorent"
+                                name = "Lorent Lempereur"
+                                email = "lorent.lempereur.dev@gmail.com"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+nexusStaging {
+    username = repoUser
+    password = repoPassword
+    packageGroup = "be.looorent"
+}
