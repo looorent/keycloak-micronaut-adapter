@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/looorent/keycloak-micronaut-adapter.svg?branch=master)](https://travis-ci.org/looorent/spring-security-jwt)
-//// [![Maven Central](https://maven-badges.herokuapp.com/maven-central/be.looorent/spring-security-jwt/badge.svg)](http://search.maven.org/#artifactdetails%7Cbe.looorent%7Cspring-security-jwt)
+//// [![Maven Central](https://maven-badges.herokuapp.com/maven-central/be.looorent/keycloak-micronaut-adapter/badge.svg)](http://search.maven.org/#artifactdetails%7Cbe.looorent%7Ckeycloak-micronaut-adapter)
 
 # Keycloak - Micronaut Adapter
 
