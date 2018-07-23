@@ -26,7 +26,7 @@ public enum SecurityErrorType {
      */
     JWT_WRONG_SIGNATURE("jwt_wrong_signature"),
 
-    JWT_WRONG_KID("jwt_wrong_id"),
+    JWT_WRONG_KID("jwt_wrong_key_id"),
 
     UNKWOWN("unkwown_error"),
 

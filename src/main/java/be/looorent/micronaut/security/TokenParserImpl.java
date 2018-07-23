@@ -21,7 +21,7 @@ import static be.looorent.micronaut.security.SecurityErrorType.*;
 @Singleton
 class TokenParserImpl implements TokenParser {
 
-    private static Logger LOG = LoggerFactory.getLogger(TokenParser.class);
+    private static Logger LOG = LoggerFactory.getLogger(TokenParserImpl.class);
 
     private final TokenValidator tokenValidator;
     private final SecurityContextFactory securityContextFactory;
