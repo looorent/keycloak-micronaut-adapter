@@ -10,6 +10,7 @@ import java.security.PublicKey
 import static be.looorent.micronaut.security.SecurityErrorType.JWT_EXPIRED
 import static be.looorent.micronaut.security.SecurityErrorType.JWT_MALFORMED
 import static be.looorent.micronaut.security.SecurityErrorType.JWT_UNSUPPORTED
+import static be.looorent.micronaut.security.SecurityErrorType.JWT_WRONG_KID
 import static be.looorent.micronaut.security.SecurityErrorType.JWT_WRONG_SIGNATURE
 import static be.looorent.micronaut.security.SecurityErrorType.VALIDATION
 
@@ -142,6 +143,18 @@ class TokenParserImplSpec extends Specification {
         context != null
         context instanceof SubjectSecurityContext
         ((SubjectSecurityContext) context).subject == VALID_SUBJECT
+    }
+
+    def "parse a valid token with an unkwown kid throws an exception"() {
+        given:
+        def token = "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJXX2I2YWlUZVU4a1JvRXp3eGluN1VMcmd2Ri1WTkFIU1ZKT2pTc2VTZmt3In0.eyJqdGkiOiJkYTAzNTQzNy03Y2NhLTRhYzMtOTc0My0xZTkyN2FhODg5ZmUiLCJleHAiOjE1MzE4NDU4MzEsIm5iZiI6MCwiaWF0IjoxNTMxODQ0MDMxLCJpc3MiOiJodHRwOi8vYXV0aGVudGljYXRpb24vYXV0aC9yZWFsbXMvb3JnYW5pc2F0aW9ucyIsImF1ZCI6InBhcmtpbmctYWNjZXNzLWFwaSIsInN1YiI6Ijg0N2M1ZGQyLWFkOWQtNDhkYi05MWQ0LTYxODNlMjRlNWZkMSIsInR5cCI6IkJlYXJlciIsImF6cCI6InBhcmtpbmctYWNjZXNzLWFwaSIsImF1dGhfdGltZSI6MCwic2Vzc2lvbl9zdGF0ZSI6ImM5YjJkYjNmLTk1NmUtNDA4ZS1hM2RiLTUyNDYxZGE1MjQwYiIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOltdLCJyZXNvdXJjZV9hY2Nlc3MiOnsicGFya2luZy1hY2Nlc3MtYXBpIjp7InJvbGVzIjpbInBhcmtpbmctYWNjZXNzLWFwaSJdfSwiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiIiLCJvcmdhbmlzYXRpb25JZCI6NDJ9.cZTogVKIggiyMNkg1dIAHnr1_7HbzVvf2gU48ivH3jh-sE4D2YKFvQn4YEq2JhYIVr6s3TN8MVzP9FlZ1EVkDf-t_QY5Umb67-fu2BN4GXtpN1VRglQvXh6PJEPNqXthueD2Z8fShaUV1BbugwOR1UDLML5LiFsfUgY-bPUq6m2XOBL68jYSqLKJm-HDus2gdEY6V2l4dfsdsSEwOCHBJHsskweTuoFvpZXwivfHdjV8mt6kU9e90gFPZRmpcM6NM-pTtVBQrnGuRJBWWFCbrKy2ttmx5I8Xl3qXZ61z8vLO6CPAEbU9VGf6szs8gf4WP8JFueS-t0Wqc_DIDCBsfQ"
+
+        when:
+        parser.parse(token)
+
+        then:
+        SecurityException exception = thrown()
+        exception.type == JWT_WRONG_KID
     }
 
     private static KeyPair createKeyPair() {

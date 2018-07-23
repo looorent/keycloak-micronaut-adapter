@@ -14,7 +14,7 @@ All type of validations (JWT parsing, custom validations, headers,...) are imple
 
 * For Gradle, add this line to the `dependencies`:
 ```groovy
-compile "be.looorent:keycloak-micronaut-adapter:1.0"
+compile "be.looorent:keycloak-micronaut-adapter:1.1"
 ```
 
 * or with Maven:

@@ -4,7 +4,7 @@ package be.looorent.micronaut.security;
  * An a Security error occurs.
  * @author Lorent Lempereur - lorent.lempereur.dev@gmail.com
  */
-class SecurityException extends Exception {
+class SecurityException extends RuntimeException {
 
     private final SecurityErrorType type;
 

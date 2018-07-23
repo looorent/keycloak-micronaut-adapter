@@ -8,6 +8,8 @@ import javax.inject.Singleton;
 import java.security.Key;
 import java.security.PublicKey;
 
+import static be.looorent.micronaut.security.SecurityErrorType.JWT_WRONG_KID;
+
 /**
  * This implementation of {@code SigningKeyResolver} can be used by a {@link io.jsonwebtoken.JwtParser JwtParser} to find a signing key that
  * should be used to verify a JWS signature. This implementation uses a {@link PublicKeyService} to find the public key.
@@ -38,6 +40,6 @@ class PublicKeyResolver implements SigningKeyResolver {
     private PublicKey findPublicKey(JwsHeader header) {
         return this.publicKeyService
                 .findPublicKey(header.getKeyId())
-                .orElseThrow(() -> new IllegalStateException("Impossible to find a public key for kid: " + header.getKeyId()));
+                .orElseThrow(() -> JWT_WRONG_KID.toException());
     }
 }
