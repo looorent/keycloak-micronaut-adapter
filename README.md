@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/looorent/keycloak-micronaut-adapter.svg?branch=master)](https://travis-ci.org/looorent/spring-security-jwt)
-//// [![Maven Central](https://maven-badges.herokuapp.com/maven-central/be.looorent/keycloak-micronaut-adapter/badge.svg)](http://search.maven.org/#artifactdetails%7Cbe.looorent%7Ckeycloak-micronaut-adapter)
+//// [![Maven Central](https://maven-badges.herokuapp.com/maven-central/uk.co.foonkiemonkey/keycloak-micronaut-adapter/badge.svg)](http://search.maven.org/#artifactdetails%7Cuk.co.foonkiemonkey%7Ckeycloak-micronaut-adapter)
 
 # Keycloak - Micronaut Adapter
 
@@ -14,13 +14,13 @@ All type of validations (JWT parsing, custom validations, headers,...) are imple
 
 * For Gradle, add this line to the `dependencies`:
 ```groovy
-compile "be.looorent:keycloak-micronaut-adapter:1.3.0"
+compile "uk.co.foonkiemonkey:keycloak-micronaut-adapter:1.3.0"
 ```
 
 * or with Maven:
 ```xml
 <dependency>
-    <groupId>be.looorent</groupId>
+    <groupId>uk.co.foonkiemonkey</groupId>
     <artifactId>keycloak-micronaut-adapter</artifactId>
     <version>1.3.0</version>
 </dependency>
@@ -37,14 +37,14 @@ Tested with:
 
 ### 1) [Optional] Create a validator
 
-If you need to verify specific attributes in the JWT (_e.g._ a client role), you can provide your own implementation of `be.looorent.micronaut.security.TokenValidator`.
-A default implementation `be.looorent.micronaut.security.DefaultTokenValidator` is available (and does... nothing!). This one is active when you don't provide your own.
+If you need to verify specific attributes in the JWT (_e.g._ a client role), you can provide your own implementation of `uk.co.foonkiemonkey.micronaut.security.TokenValidator`.
+A default implementation `uk.co.foonkiemonkey.micronaut.security.DefaultTokenValidator` is available (and does... nothing!). This one is active when you don't provide your own.
 
 For example, here under is a Kotlin implementation that validates a role `can-do-stuff` for the Keycloak client `a-mobile-client`.
 
 ```kotlin
-import be.looorent.micronaut.security.DefaultTokenValidator
-import be.looorent.micronaut.security.TokenValidator
+import uk.co.foonkiemonkey.micronaut.security.DefaultTokenValidator
+import uk.co.foonkiemonkey.micronaut.security.TokenValidator
 import io.jsonwebtoken.Claims
 import io.micronaut.context.annotation.Replaces
 import java.util.Optional.ofNullable
@@ -87,8 +87,8 @@ A `SecurityContext` is a container for your custom data (included in the Token).
 For example, here under is a Kotlin implementation that add a `userId` to the Security Context of the HTTP request. This `userId` can be retrieved in the controller using `request.getAttribute("SecurityContext")`.
 
 ```kotlin
-import be.looorent.micronaut.security.SecurityContextFactory
-import be.looorent.micronaut.security.DefaultSecurityContextFactory
+import uk.co.foonkiemonkey.micronaut.security.SecurityContextFactory
+import uk.co.foonkiemonkey.micronaut.security.DefaultSecurityContextFactory
 import io.jsonwebtoken.Claims
 import javax.inject.Singleton
 
@@ -106,7 +106,7 @@ internal class UserSecurityContextFactory : SecurityContextFactory {
 }
 
 
-import be.looorent.micronaut.security.SecurityContext
+import uk.co.foonkiemonkey.micronaut.security.SecurityContext
 
 internal data class UserSecurityContext(
         val userId: Int
@@ -116,12 +116,12 @@ internal data class UserSecurityContext(
 ### 3) [Mandatory] Create an HttpServerFilter
 
 To register this adapter as a Micronaut filter, you must specify which controller is affected.
-This can be done by implementing an `HttpServerFilter`. Don't worry, everything is already implemented in `be.looorent.micronaut.security.SecurityFilter`. However, you must specify a class annotated with `@Filter` to setup this filter.
+This can be done by implementing an `HttpServerFilter`. Don't worry, everything is already implemented in `uk.co.foonkiemonkey.micronaut.security.SecurityFilter`. However, you must specify a class annotated with `@Filter` to setup this filter.
 
 For instance, here under is a Kotlin implementation that secures all endpoints under the path `/api`.
 
 ```kotlin
-import be.looorent.micronaut.security.SecurityFilter
+import uk.co.foonkiemonkey.micronaut.security.SecurityFilter
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.MutableHttpResponse
 import io.micronaut.http.annotation.Filter

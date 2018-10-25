@@ -1,0 +1,1 @@
+docker run -t -i -v C:\Users\jorge.arias\docker-containers\pont\keycloak-micronaut-adapter:/src -w /src gradle:jdk8-alpine gradle build
