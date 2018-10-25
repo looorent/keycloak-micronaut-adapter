@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [1.3.0] - 2018-08-30
+## [1.0.0] - 2018-10-25
 
-* Support for Micronaut 1.0.0.M4 (waiting for the RC)
+* Forked from https://github.com/looorent/keycloak-micronaut-adapter and Support for Micronaut 1.0.0.GA
 

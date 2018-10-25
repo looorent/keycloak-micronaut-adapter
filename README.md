@@ -22,7 +22,7 @@ compile "uk.co.foonkiemonkey:keycloak-micronaut-adapter:1.3.0"
 <dependency>
     <groupId>uk.co.foonkiemonkey</groupId>
     <artifactId>keycloak-micronaut-adapter</artifactId>
-    <version>1.3.0</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 
