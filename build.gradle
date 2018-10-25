@@ -19,7 +19,7 @@ plugins {
 }
 
 group "uk.co.foonkiemonkey"
-version "1.0.0"
+version "1.0.1"
 description "Create API middleware to check Authorization headers against Keycloak"
 
 sourceCompatibility = 1.8
@@ -49,6 +49,9 @@ dependencies {
     testImplementation "org.keycloak:keycloak-common:$keycloakVersion"
     testImplementation "org.keycloak:keycloak-core:$keycloakVersion"
 
+    compile group: 'javax.ws.rs', name: 'javax.ws.rs-api', version: '2.0'
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.5'
+
     testImplementation(
             "junit:junit:4.12",
             "org.codehaus.groovy:groovy-all:2.4.15",
@@ -73,7 +76,7 @@ publishing {
         maven(MavenPublication) {
             groupId "uk.co.foonkiemonkey"
             artifactId "keycloak-micronaut-adapter"
-            version "1.0.0"
+            version "1.0.1"
             from components.java
         }
     }
