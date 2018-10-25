@@ -2,6 +2,8 @@ package uk.co.foonkiemonkey.micronaut.security;
 
 
 import io.micronaut.http.HttpRequest;
+import io.micronaut.http.HttpResponse;
+import io.micronaut.http.HttpStatus;
 import io.micronaut.http.MutableHttpResponse;
 import io.micronaut.http.filter.HttpServerFilter;
 import io.micronaut.http.filter.ServerFilterChain;
@@ -11,6 +13,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Singleton;
+import javax.ws.rs.WebApplicationException;
+
+import com.google.gson.Gson;
+
+import java.util.Date;
 import java.util.UUID;
 
 import static uk.co.foonkiemonkey.micronaut.security.Constant.SECURITY_CONTEXT;
@@ -36,11 +43,16 @@ public class SecurityFilter implements HttpServerFilter {
     }
 
     /**
-     * Checks the validity of a request's Authorization header and continue processing the filter chain if no error occurs. Handles errors and produces a 401 status if applicable.
+     * Checks the validity of a request's Authorization header and continue
+     * processing the filter chain if no error occurs. Handles errors and produces a
+     * 401 status if applicable.
+     *
      * @param request the request that must be validated against the security checks
-     * @param chain next filters to process if no error occurs
-     * @return an HTTP response whose the body is a {@link JsonError} if a Security check occurred or the result of the next filter of 'chain'.
+     * @param chain   next filters to process if no error occurs
+     * @return an HTTP response whose the body is a {@link JsonError} if a Security
+     *         check occurred or the result of the next filter of 'chain'.
      */
+    @Override
     public Publisher<MutableHttpResponse<?>> doFilter(HttpRequest<?> request, ServerFilterChain chain) {
         return service.readAndVerifyTokenIn(request).switchMap((context -> {
             request.setAttribute(SECURITY_CONTEXT, context);
@@ -48,6 +60,8 @@ public class SecurityFilter implements HttpServerFilter {
         })).onErrorReturn((exception) -> {
             if (exception instanceof SecurityException) {
                 return authorizationError((SecurityException) exception);
+            } else if (exception instanceof WebApplicationException) {
+                return apiError((WebApplicationException) exception);
             } else {
                 return unexpectedError(exception);
             }
@@ -57,6 +71,15 @@ public class SecurityFilter implements HttpServerFilter {
     private MutableHttpResponse<?> authorizationError(SecurityException securityException) {
         JsonError error = new JsonError(securityException.getMessage());
         return status(UNAUTHORIZED).body(error);
+    }
+
+    private MutableHttpResponse<?> apiError(WebApplicationException exception) {
+        ApiError apiError = new ApiError((new Date()).getTime(), exception.getResponse().getStatus(),
+                exception.getResponse().getStatusInfo().getReasonPhrase(), WebApplicationException.class.getName(),
+                exception.getMessage());
+        String body = new Gson().toJson(apiError);
+        return HttpResponse.status(HttpStatus.valueOf(exception.getResponse().getStatus()), exception.getMessage())
+                .body(body);
     }
 
     private MutableHttpResponse<?> unexpectedError(Throwable error) {

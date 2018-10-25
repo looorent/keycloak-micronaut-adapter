@@ -1,0 +1,1 @@
+docker run -t -i -v C:\Users\jorge.arias\docker-containers\pont\keycloak-micronaut-adapter:/src -w /src build-docker gradle -Prelease uploadArchives closeAndPromoteRepository
