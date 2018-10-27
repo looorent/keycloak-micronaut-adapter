@@ -1,4 +1,10 @@
-[![Build Status](https://travis-ci.org/looorent/keycloak-micronaut-adapter.svg?branch=master)](https://travis-ci.org/looorent/spring-security-jwt)
+This is fork from https://github.com/looorent/keycloak-micronaut-adapter.
+
+[Lorent](https://github.com/looorent) did an excelent work but we needed to modify the source code so we decided to fork the repo and use our own maven repo.
+
+The next lines are from original repo. Hoping the original author could continue with an excelent work.
+
+---------------------------------------------------------------------------------------------------------------------------------
 //// [![Maven Central](https://maven-badges.herokuapp.com/maven-central/uk.co.foonkiemonkey/keycloak-micronaut-adapter/badge.svg)](http://search.maven.org/#artifactdetails%7Cuk.co.foonkiemonkey%7Ckeycloak-micronaut-adapter)
 
 # Keycloak - Micronaut Adapter
@@ -14,7 +20,7 @@ All type of validations (JWT parsing, custom validations, headers,...) are imple
 
 * For Gradle, add this line to the `dependencies`:
 ```groovy
-compile "uk.co.foonkiemonkey:keycloak-micronaut-adapter:1.3.0"
+compile "uk.co.foonkiemonkey:keycloak-micronaut-adapter:1.0.1"
 ```
 
 * or with Maven:
