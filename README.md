@@ -35,7 +35,7 @@ compile "uk.co.foonkiemonkey:keycloak-micronaut-adapter:1.0.1"
 ## Compatibility
 
 Tested with:
-* Micronaut 1.0.0.M4
+* Micronaut 1.0.0.GA
 * Keycloak 3 and 4
 * Java (JDK 8), Kotlin and Groovy
 
