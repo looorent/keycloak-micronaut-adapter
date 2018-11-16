@@ -14,7 +14,7 @@ All type of validations (JWT parsing, custom validations, headers,...) are imple
 
 * For Gradle, add this line to the `dependencies`:
 ```groovy
-compile "be.looorent:keycloak-micronaut-adapter:1.3.0"
+compile "be.looorent:keycloak-micronaut-adapter:1.4.0"
 ```
 
 * or with Maven:
@@ -22,14 +22,14 @@ compile "be.looorent:keycloak-micronaut-adapter:1.3.0"
 <dependency>
     <groupId>be.looorent</groupId>
     <artifactId>keycloak-micronaut-adapter</artifactId>
-    <version>1.3.0</version>
+    <version>1.4.0</version>
 </dependency>
 ```
 
 ## Compatibility
 
 Tested with:
-* Micronaut 1.0.0.M4
+* Micronaut 1.0.1
 * Keycloak 3 and 4
 * Java (JDK 8), Kotlin and Groovy
 
