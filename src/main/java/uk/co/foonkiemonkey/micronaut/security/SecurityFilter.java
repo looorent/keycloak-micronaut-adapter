@@ -13,7 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Singleton;
+import javax.validation.ConstraintViolationException;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
 
@@ -62,7 +64,10 @@ public class SecurityFilter implements HttpServerFilter {
                 return authorizationError((SecurityException) exception);
             } else if (exception instanceof WebApplicationException) {
                 return apiError((WebApplicationException) exception);
-            } else {
+            }else if (exception instanceof ConstraintViolationException) {
+                return apiError((ConstraintViolationException) exception);
+            }
+            else {
                 return unexpectedError(exception);
             }
         });
@@ -79,6 +84,14 @@ public class SecurityFilter implements HttpServerFilter {
                 exception.getMessage());
         String body = new Gson().toJson(apiError);
         return HttpResponse.status(HttpStatus.valueOf(exception.getResponse().getStatus()), exception.getMessage())
+                .body(body);
+    }
+
+    private MutableHttpResponse<?> apiError(ConstraintViolationException exception) {
+        ApiError apiError = new ApiError((new Date()).getTime(), Response.Status.BAD_REQUEST.getStatusCode(),exception.getCause().getMessage(), ConstraintViolationException.class.getName(),
+                exception.getMessage());
+        String body = new Gson().toJson(apiError);
+        return HttpResponse.status(HttpStatus.valueOf(Response.Status.BAD_REQUEST.getStatusCode()), exception.getMessage())
                 .body(body);
     }
 

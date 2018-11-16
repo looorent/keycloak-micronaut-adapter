@@ -42,6 +42,7 @@ dependencies {
     implementation "io.micronaut:micronaut-core:$micronautVersion"
     implementation "io.micronaut:micronaut-http:$micronautVersion"
     implementation "io.micronaut:micronaut-inject:$micronautVersion"
+    implementation "io.micronaut.configuration:micronaut-hibernate-validator:$micronautVersion"
     implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
 
     testImplementation "io.micronaut:micronaut-http:$micronautVersion"
