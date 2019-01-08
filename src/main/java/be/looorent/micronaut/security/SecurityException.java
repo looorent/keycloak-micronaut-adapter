@@ -1,7 +1,7 @@
 package be.looorent.micronaut.security;
 
 /**
- * An a Security error occurs.
+ * When a known security error occurs during token parsing.
  * @author Lorent Lempereur - lorent.lempereur.dev@gmail.com
  */
 public class SecurityException extends RuntimeException {

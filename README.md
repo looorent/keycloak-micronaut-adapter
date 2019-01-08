@@ -22,7 +22,7 @@ compile "be.looorent:keycloak-micronaut-adapter:1.4.0"
 <dependency>
     <groupId>be.looorent</groupId>
     <artifactId>keycloak-micronaut-adapter</artifactId>
-    <version>1.4.0</version>
+    <version>1.5.0</version>
 </dependency>
 ```
 

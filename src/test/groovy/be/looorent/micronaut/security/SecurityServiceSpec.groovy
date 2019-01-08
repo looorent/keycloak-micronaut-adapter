@@ -37,8 +37,9 @@ class SecurityServiceSpec extends Specification {
 
         then:
         context != null
-        context instanceof SecurityException
-        context.type == AUTHORIZATION_HEADER_MISSING
+        context instanceof FailedSecurityContext
+        !context.unexpected
+        context.exception.type == AUTHORIZATION_HEADER_MISSING
     }
 
     def "readAndVerifyTokenIn a request with wrong Authorization format throws an exception"() {
@@ -53,8 +54,9 @@ class SecurityServiceSpec extends Specification {
 
         then:
         context != null
-        context instanceof SecurityException
-        context.type == AUTHORIZATION_HEADER_WRONG_FORMAT
+        context instanceof FailedSecurityContext
+        !context.unexpected
+        context.exception.type == AUTHORIZATION_HEADER_WRONG_FORMAT
     }
 
     def "readAndVerifyTokenIn a request with wrong Authorization scheme throws an exception"() {
@@ -69,8 +71,9 @@ class SecurityServiceSpec extends Specification {
 
         then:
         context != null
-        context instanceof SecurityException
-        context.type == AUTHORIZATION_HEADER_WRONG_SCHEME
+        context instanceof FailedSecurityContext
+        !context.unexpected
+        context.exception.type == AUTHORIZATION_HEADER_WRONG_SCHEME
     }
 
     def "readAndVerifyTokenIn a request with wrong Token throws the parser exception"(SecurityErrorType parsingError) {
@@ -87,8 +90,9 @@ class SecurityServiceSpec extends Specification {
 
         then:
         context != null
-        context instanceof SecurityException
-        context.type == parsingError
+        context instanceof FailedSecurityContext
+        !context.unexpected
+        context.exception.type == parsingError
 
         where:
         parsingError << [JWT_UNSUPPORTED, JWT_MALFORMED, JWT_WRONG_SIGNATURE, JWT_EXPIRED, VALIDATION]

@@ -5,6 +5,8 @@ import io.reactivex.Flowable;
 
 import javax.inject.Singleton;
 
+import static be.looorent.micronaut.security.FailedSecurityContext.securityErrorFound;
+import static be.looorent.micronaut.security.FailedSecurityContext.unexpectedErrorDuringVerification;
 import static be.looorent.micronaut.security.SecurityErrorType.*;
 import static io.reactivex.Flowable.fromCallable;
 import static io.reactivex.schedulers.Schedulers.io;
@@ -30,8 +32,16 @@ class SecurityService {
 
     Flowable<SecurityContext> readAndVerifyTokenIn(HttpRequest<?> request)  {
         return fromCallable(() -> {
-            String token = readTokenInHeadersOf(request);
-            return tokenParser.parse(token);
+            try {
+                String token = readTokenInHeadersOf(request);
+                return tokenParser.parse(token);
+            }
+            catch (SecurityException e) {
+                return securityErrorFound(e);
+            }
+            catch (Throwable e) {
+                return unexpectedErrorDuringVerification(e);
+            }
         }).subscribeOn(io());
     }
 

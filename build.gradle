@@ -19,7 +19,7 @@ plugins {
 }
 
 group "be.looorent"
-version "1.4.0"
+version "1.5.0"
 description "Create API middleware to check Authorization headers against Keycloak"
 
 sourceCompatibility = 1.8
@@ -73,7 +73,7 @@ publishing {
         maven(MavenPublication) {
             groupId "be.looorent"
             artifactId "keycloak-micronaut-adapter"
-            version "1.4.0"
+            version "1.5.0"
             from components.java
         }
     }
