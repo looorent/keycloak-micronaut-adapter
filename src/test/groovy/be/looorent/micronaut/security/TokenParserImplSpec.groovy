@@ -7,12 +7,7 @@ import java.security.KeyPair
 import java.security.KeyPairGenerator
 import java.security.PublicKey
 
-import static be.looorent.micronaut.security.SecurityErrorType.JWT_EXPIRED
-import static be.looorent.micronaut.security.SecurityErrorType.JWT_MALFORMED
-import static be.looorent.micronaut.security.SecurityErrorType.JWT_UNSUPPORTED
-import static be.looorent.micronaut.security.SecurityErrorType.JWT_WRONG_KID
-import static be.looorent.micronaut.security.SecurityErrorType.JWT_WRONG_SIGNATURE
-import static be.looorent.micronaut.security.SecurityErrorType.VALIDATION
+import static be.looorent.micronaut.security.SecurityErrorType.*
 
 class TokenParserImplSpec extends Specification {
 

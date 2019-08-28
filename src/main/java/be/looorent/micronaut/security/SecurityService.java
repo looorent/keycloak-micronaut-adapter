@@ -2,6 +2,8 @@ package be.looorent.micronaut.security;
 
 import io.micronaut.http.HttpRequest;
 import io.reactivex.Flowable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Singleton;
 
@@ -17,6 +19,7 @@ import static io.reactivex.schedulers.Schedulers.io;
  */
 @Singleton
 class SecurityService {
+    private static final Logger LOG = LoggerFactory.getLogger(SecurityService.class);
 
     private static final String HEADER_NAME = "Authorization";
     private static final String BEARER_SCHEME = "Bearer";
@@ -37,9 +40,11 @@ class SecurityService {
                 return tokenParser.parse(token);
             }
             catch (SecurityException e) {
+                LOG.warn("A security error occurred when reading and verifying the request's token", e);
                 return securityErrorFound(e);
             }
             catch (Throwable e) {
+                LOG.error("An unexpected error occurred when reading and verifying the request's token", e);
                 return unexpectedErrorDuringVerification(e);
             }
         }).subscribeOn(io());

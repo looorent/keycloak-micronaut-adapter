@@ -9,7 +9,6 @@ import java.security.PrivateKey
 import java.security.PublicKey
 import java.time.LocalDateTime
 
-import static io.jsonwebtoken.SignatureAlgorithm.HS256
 import static io.jsonwebtoken.SignatureAlgorithm.RS256
 import static java.time.ZoneId.systemDefault
 

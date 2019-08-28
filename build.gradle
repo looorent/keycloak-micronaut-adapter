@@ -19,7 +19,7 @@ plugins {
 }
 
 group "be.looorent"
-version "1.5.0"
+version "1.5.1"
 description "Create API middleware to check Authorization headers against Keycloak"
 
 sourceCompatibility = 1.8
@@ -37,19 +37,23 @@ def micronautVersion = "1.0.1"
 dependencies {
     annotationProcessor "io.micronaut:micronaut-inject-java:$micronautVersion"
 
-    api "io.jsonwebtoken:jjwt:0.9.1"
+    api (
+        "io.jsonwebtoken:jjwt:0.9.1",
+        "javax.xml.bind:jaxb-api:2.+"
+    )
 
-    implementation "io.micronaut:micronaut-core:$micronautVersion"
-    implementation "io.micronaut:micronaut-http:$micronautVersion"
-    implementation "io.micronaut:micronaut-inject:$micronautVersion"
-    implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
-
-    testImplementation "io.micronaut:micronaut-http:$micronautVersion"
-    testImplementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
-    testImplementation "org.keycloak:keycloak-common:$keycloakVersion"
-    testImplementation "org.keycloak:keycloak-core:$keycloakVersion"
+    implementation (
+        "io.micronaut:micronaut-core:$micronautVersion",
+        "io.micronaut:micronaut-http:$micronautVersion",
+        "io.micronaut:micronaut-inject:$micronautVersion",
+        "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
+    )
 
     testImplementation(
+            "io.micronaut:micronaut-http:$micronautVersion",
+            "io.reactivex.rxjava2:rxjava:$rxJavaVersion",
+            "org.keycloak:keycloak-common:$keycloakVersion",
+            "org.keycloak:keycloak-core:$keycloakVersion",
             "junit:junit:4.12",
             "org.codehaus.groovy:groovy-all:2.4.15",
             "org.spockframework:spock-core:1.1-groovy-2.4"

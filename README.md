@@ -14,7 +14,7 @@ All type of validations (JWT parsing, custom validations, headers,...) are imple
 
 * For Gradle, add this line to the `dependencies`:
 ```groovy
-compile "be.looorent:keycloak-micronaut-adapter:1.4.0"
+compile "be.looorent:keycloak-micronaut-adapter:1.5.1"
 ```
 
 * or with Maven:
@@ -22,7 +22,7 @@ compile "be.looorent:keycloak-micronaut-adapter:1.4.0"
 <dependency>
     <groupId>be.looorent</groupId>
     <artifactId>keycloak-micronaut-adapter</artifactId>
-    <version>1.5.0</version>
+    <version>1.5.1</version>
 </dependency>
 ```
 
@@ -30,8 +30,8 @@ compile "be.looorent:keycloak-micronaut-adapter:1.4.0"
 
 Tested with:
 * Micronaut 1.0.1
-* Keycloak 3 and 4
-* Java (JDK 8), Kotlin and Groovy
+* Keycloak 3+ (tested until 6.0.1)
+* Java (JDK 8+), Kotlin and Groovy (tested until JDK 12)
 
 ## Get Started
 
@@ -176,6 +176,10 @@ These error HTTP statuses can be returned for each authenticated request:
     * `authorization_header_wrong_scheme`:
     * Another unexpected message
 
+## Logging
+
+This library uses log4j with the prefixes `be.looorent.micronaut.security` and `be.looorent.keycloak`.
+
 ## How to deploy a new version to Maven central
 
 Following this [great article](http://nemerosa.ghost.io/2015/07/01/publishing-to-the-maven-central-using-gradle/), you should configure your `./gradle/gradle.propreties` file and then:
@@ -183,7 +187,6 @@ Following this [great article](http://nemerosa.ghost.io/2015/07/01/publishing-to
 ```
 $ ./gradlew -Prelease uploadArchives closeAndPromoteRepository
 ```
-
 
 # Future work
 
