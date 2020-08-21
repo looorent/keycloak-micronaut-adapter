@@ -6,7 +6,7 @@ import io.micronaut.http.HttpStatus;
 import io.micronaut.http.MutableHttpResponse;
 import io.micronaut.http.filter.HttpServerFilter;
 import io.micronaut.http.filter.ServerFilterChain;
-import io.micronaut.http.hateos.JsonError;
+import io.micronaut.http.hateoas.JsonError;
 import io.reactivex.Flowable;
 import org.reactivestreams.Publisher;
 
@@ -51,7 +51,7 @@ public class SecurityFilter implements HttpServerFilter {
         });
     }
 
-    private Flowable<MutableHttpResponse<Object>> handleAuthenticationFailure(FailedSecurityContext failure) {
+    private Flowable<MutableHttpResponse<JsonError>> handleAuthenticationFailure(FailedSecurityContext failure) {
         return fromCallable(() -> {
             JsonError body = new JsonError(failure.getMessage());
             HttpStatus status = failure.isUnexpected() ? INTERNAL_SERVER_ERROR : UNAUTHORIZED;
