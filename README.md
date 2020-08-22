@@ -14,7 +14,7 @@ All type of validations (JWT parsing, custom validations, headers,...) are imple
 
 * For Gradle, add this line to the `dependencies`:
 ```groovy
-compile "be.looorent:keycloak-micronaut-adapter:1.5.1"
+compile "be.looorent:keycloak-micronaut-adapter:2.0.0"
 ```
 
 * or with Maven:
@@ -22,7 +22,7 @@ compile "be.looorent:keycloak-micronaut-adapter:1.5.1"
 <dependency>
     <groupId>be.looorent</groupId>
     <artifactId>keycloak-micronaut-adapter</artifactId>
-    <version>1.5.1</version>
+    <version>2.0.0</version>
 </dependency>
 ```
 
